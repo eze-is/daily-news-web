@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily News - 2026-01-28</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #fafafa;
+            --bg-secondary: #f5f5f5;
+            --bg-terminal: #1a1a1a;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666666;
+            --text-muted: #999999;
+            --accent: #2563eb;
+            --accent-light: #3b82f6;
+            --border: #e5e5e5;
+            --border-light: #f0f0f0;
+            --star: #f59e0b;
+            --code-bg: #f4f4f4;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* Terminal Header */
+        .terminal-header {
+            background: var(--bg-terminal);
+            color: #fff;
+            padding: 1rem 2rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .terminal-line {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .terminal-prompt {
+            color: #10b981;
+        }
+
+        .terminal-cursor {
+            display: inline-block;
+            width: 8px;
+            height: 1.2em;
+            background: #10b981;
+            animation: blink 1s infinite;
+            vertical-align: text-bottom;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        /* Navigation */
+        .nav-container {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            overflow-x: auto;
+        }
+
+        .date-nav {
+            display: flex;
+            gap: 0.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+        }
+
+        .date-link {
+            padding: 0.5rem 1rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .date-link:hover {
+            background: var(--bg-primary);
+            color: var(--accent);
+        }
+
+        .date-link.active {
+            background: var(--accent);
+            color: white;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .page-subtitle {
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+            margin-bottom: 3rem;
+        }
+
+        /* Summary Section */
+        .summary-section {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .summary-item {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+
+        .summary-topic {
+            font-weight: 600;
+            color: var(--accent);
+            margin-right: 0.5rem;
+        }
+
+        .summary-content {
+            color: var(--text-secondary);
+        }
+
+        /* News Sections */
+        .news-section {
+            margin-bottom: 3rem;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .section-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .star-rating {
+            color: var(--star);
+            font-size: 0.875rem;
+        }
+
+        .news-item {
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            background: white;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .news-item:hover {
+            border-color: var(--accent);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.08);
+        }
+
+        .news-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .news-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            text-decoration: none;
+            line-height: 1.4;
+        }
+
+        .news-title:hover {
+            color: var(--accent);
+        }
+
+        .news-meta {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            background: var(--code-bg);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            white-space: nowrap;
+        }
+
+        .news-summary {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+            }
+
+            .page-title {
+                font-size: 1.75rem;
+            }
+
+            .news-header {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .nav-container {
+                padding: 0.75rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="terminal-header">
+        <div class="terminal-line">
+            <span class="terminal-prompt">$</span>
+            <span>daily-news --date 2026-01-28</span>
+            <span class="terminal-cursor"></span>
+        </div>
+        <div class="terminal-line">
+            <span class="terminal-prompt">&gt;</span>
+            <span>Generating report... Done.</span>
+        </div>
+    </header>
+
+    <nav class="nav-container">
+        <div class="date-nav">
+            <a href="2026-01-28.html" class="date-link active">2026-01-28</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <h1 class="page-title">Daily News</h1>
+        <p class="page-subtitle">// 2026-01-28</p>
+
+        <section class="summary-section">
+            <div class="section-title">$ cat summary.md</div>
+            
+        <div class="summary-item">
+            <span class="summary-topic">AI融资热潮</span>
+            <span class="summary-content">Anthropic融资目标翻倍至200亿美元，估值达3500亿美元，反映资本市场对AI的狂热追逐</span>
+        </div>
+        
+        <div class="summary-item">
+            <span class="summary-topic">开源模型竞争</span>
+            <span class="summary-content">中国Moonshot发布Kimi K2.5开源模型，声称超越GPT-4o和Claude 3.5 Sonnet</span>
+        </div>
+        
+        <div class="summary-item">
+            <span class="summary-topic">Coding Agent突破</span>
+            <span class="summary-content">Ai2发布SERA开源编码代理，训练成本仅400美元即可达到SOTA性能</span>
+        </div>
+        
+        <div class="summary-item">
+            <span class="summary-topic">政府级AI落地</span>
+            <span class="summary-content">Claude被英国政府选中，为GOV.UK构建AI助手，标志AI进入公共服务领域</span>
+        </div>
+        
+        <div class="summary-item">
+            <span class="summary-topic">产品功能扩展</span>
+            <span class="summary-content">OpenAI推出Prism科研工具、Claude新增交互式应用和Slack集成</span>
+        </div>
+        
+        </section>
+
+        
+        <section class="news-section">
+            <div class="section-header">
+                <span class="section-name">五星推荐</span>
+                <span class="star-rating">★★★★★</span>
+            </div>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://techcrunch.com/2026/01/27/anthropic-reportedly-upped-its-latest-raise-to-20b/" class="news-title" target="_blank" rel="noopener">Anthropic reportedly upped its latest raise to $20B</a>
+                    <span class="news-meta">techcrunch-ai` · `2026-01-27</span>
+                </div>
+                <p class="news-summary">Anthropic reportedly将融资目标从100亿美元翻倍至200亿美元，估值达3500亿美元。投资方包括Sequoia Capital、新加坡主权财富基金和Coatue。公司表示因投资者兴趣激增而提高目标。</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://techcrunch.com/2026/01/27/chinas-moonshot-releases-a-new-open-source-model-kimi-k2-5-and-a-coding-agent/" class="news-title" target="_blank" rel="noopener">China Moonshot releases a new open source model Kimi K2.5 and a coding agent</a>
+                    <span class="news-meta">techcrunch-ai` · `2026-01-26</span>
+                </div>
+                <p class="news-summary">中国AI创业公司Moonshot AI发布开源大模型Kimi K2.5和编码代理Kimi Coding Agent。模型训练于15万亿混合视觉和文本token，声称在多项基准测试中超越GPT-4o和Claude 3.5 Sonnet。公司成立2023年已融资超10亿美元。</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://allenai.org/blog/open-coding-agents" class="news-title" target="_blank" rel="noopener">AI2: Open Coding Agents</a>
+                    <span class="news-meta">hacker-news` · `2026-01-27</span>
+                </div>
+                <p class="news-summary">Ai2发布SERA（软验证高效仓库代理），首个开源编码代理家族。SERA-32B在SWE-Bench Verified上达到54.2%，训练成本仅约400美元。三大创新：软验证生成、51种常见bug模式分类、高保真模拟工作流。模型、训练配方和数据全部开源。</p>
+            </article>
+            
+        </section>
+        
+
+        
+        <section class="news-section">
+            <div class="section-header">
+                <span class="section-name">四星推荐</span>
+                <span class="star-rating">★★★★☆</span>
+            </div>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://www.anthropic.com/news/gov-UK-partnership" class="news-title" target="_blank" rel="noopener">Anthropic partners with the UK Government to bring AI assistance to GOV.UK services</a>
+                    <span class="news-meta">anthropic-news` · `2026-01-27</span>
+                </div>
+                <p class="news-summary">Anthropic被英国DSIT选中，为GOV.UK构建AI助手试点项目。该助手由Claude驱动，是一个agentic系统，旨在帮助人们导航政府服务，初期聚焦就业领域。系统支持跨对话保持上下文，用户完全控制数据，符合英国数据保护法。</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://techcrunch.com/2026/01/27/openai-launches-prism-a-new-ai-workspace-for-scientists/" class="news-title" target="_blank" rel="noopener">OpenAI launches Prism, a new AI workspace for scientists</a>
+                    <span class="news-meta">techcrunch-ai` · `2026-01-27</span>
+                </div>
+                <p class="news-summary">OpenAI推出Prism，一个面向科学家的AI工作空间，免费向所有ChatGPT用户开放。它集成了AI增强的文字处理和研究工具，帮助科研人员撰写科学论文，将AI能力整合到现有的研究写作标准中。</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://techcrunch.com/2026/01/26/anthropic-launches-interactive-claude-apps-including-slack-and-other-workplace-tools/" class="news-title" target="_blank" rel="noopener">Anthropic launches interactive Claude apps, including Slack and other workplace tools</a>
+                    <span class="news-meta">techcrunch-ai` · `2026-01-26</span>
+                </div>
+                <p class="news-summary">Anthropic推出Claude交互式应用功能，用户可在聊天界面中调用交互式应用，首批支持Slack和Asana等工作场所工具，Cowork集成即将推出。这标志着Claude向更广泛的办公场景扩展。</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://twitter.com/karpathy/status/2015883857489522876" class="news-title" target="_blank" rel="noopener">A few random notes from Claude coding quite a bit last few weeks</a>
+                    <span class="news-meta">hacker-news` · `2026-01-26</span>
+                </div>
+                <p class="news-summary">前Tesla AI总监Andrej Karpathy分享过去几周大量使用Claude编程的随机笔记，讨论Claude在代码辅助方面的体验和观察。</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://www.vectorware.com/blog/rust-std-on-gpu/" class="news-title" target="_blank" rel="noopener">Rust Standard Library on the GPU</a>
+                    <span class="news-meta">hacker-news` · `2026-01-24</span>
+                </div>
+                <p class="news-summary">VectorWare宣布成功在GPU上使用Rust标准库。通过hostcall框架，GPU代码可调用标准库API如文件系统、网络、时间等。这是GPU编程的重大突破，使开发者能用熟悉的Rust抽象编写高性能GPU应用，无需使用#![no_std]。</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://www.anthropic.com/news/claude-new-constitution" class="news-title" target="_blank" rel="noopener">Claude's new constitution</a>
+                    <span class="news-meta">anthropic-news` · `2026-01-22</span>
+                </div>
+                <p class="news-summary">Anthropic发布Claude新宪法，详细描述Claude的价值观和行为准则。宪法是模型训练的核心部分，直接塑造Claude行为。文档以CC0开源发布，包含四大优先事项：安全、道德、合规、有用性。</p>
+            </article>
+            
+        </section>
+        
+
+        
+        <section class="news-section">
+            <div class="section-header">
+                <span class="section-name">值得一看</span>
+                <span class="star-rating">★★★☆☆</span>
+            </div>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://www.anthropic.com/news/introducing-anthropic-labs" class="news-title" target="_blank" rel="noopener">Introducing Labs</a>
+                    <span class="news-meta">anthropic-news` · `2026-01-13</span>
+                </div>
+                <p class="news-summary">Anthropic扩展Labs团队，专注孵化Claude能力前沿的实验性产品。Instagram联合创始人Mike Krieger加入Labs，Ami Vora接任产品负责人。Labs已产出Claude Code（6个月达10亿美元）、MCP（月下载1亿次）、Cowork等产品。</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://techcrunch.com/2026/01/27/googles-ai-plus-plan-rolls-out-to-all-markets-including-the-u-s/" class="news-title" target="_blank" rel="noopener">Google more affordable AI Plus plan rolls out to all markets, including the US</a>
+                    <span class="news-meta">techcrunch-ai` · `2026-01-27</span>
+                </div>
+                <p class="news-summary">Google更实惠的AI Plus计划向所有市场推出，包括美国。这是Google在AI订阅服务领域的扩展，旨在让更多用户能够使用其高级AI功能。</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://techcrunch.com/2026/01/27/google-now-lets-users-jump-from-ai-overviews-into-ai-mode-conversations/" class="news-title" target="_blank" rel="noopener">Google now lets users jump from AI Overviews into AI Mode conversations</a>
+                    <span class="news-meta">techcrunch-ai` · `2026-01-27</span>
+                </div>
+                <p class="news-summary">Google允许用户从AI Overviews直接跳转到AI Mode对话。这一功能增强了搜索与AI对话之间的无缝衔接，提升用户体验。</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://techcrunch.com/2026/01/27/airtables-valuation-fell-by-7-million-its-founder-thinks-that-was-just-the-warm-up/" class="news-title" target="_blank" rel="noopener">Airtable jumps into the AI agent game with Superagent</a>
+                    <span class="news-meta">techcrunch-ai` · `2026-01-26</span>
+                </div>
+                <p class="news-summary">Airtable推出13年来首个独立产品SuperAgent，进军AI代理领域。这反映了当前AI时刻的现实：每个严肃的软件厂商都在竞相证明他们能交付代理能力。</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://techcrunch.com/2026/01/27/among-the-worst-weve-seen-report-slams-xais-grok-over-child-safety-failures/" class="news-title" target="_blank" rel="noopener">Among the worst we have seen: report slams xAI Grok over child safety failures</a>
+                    <span class="news-meta">techcrunch-ai` · `2026-01-26</span>
+                </div>
+                <p class="news-summary">报告严厉批评xAI的Grok在儿童安全方面的失败，称其为我们见过的最糟糕情况之一。这引发了对AI聊天机器人安全标准的关注。</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://techcrunch.com/2026/01/26/youtubers-sue-snap-for-alleged-copyright-infringement-in-training-its-ai-models/" class="news-title" target="_blank" rel="noopener">YouTubers sue Snap for alleged copyright infringement in training its AI models</a>
+                    <span class="news-meta">techcrunch-ai` · `2026-01-26</span>
+                </div>
+                <p class="news-summary">YouTubers起诉Snap，指控其在训练AI模型时侵犯版权。这是AI训练数据版权争议的又一案例，反映了创作者与AI公司之间的紧张关系。</p>
+            </article>
+            
+            <article class="news-item">
+                <div class="news-header">
+                    <a href="https://amutable.com/about" class="news-title" target="_blank" rel="noopener">Lennart Poettering, Christian Brauner founded a new company</a>
+                    <span class="news-meta">hacker-news` · `2026-01-27</span>
+                </div>
+                <p class="news-summary">systemd创始人Lennart Poettering和Linux内核开发者Christian Brauner创立新公司Amutable，使命是为Linux工作负载提供可验证的完整性。三大支柱：构建完整性、启动完整性、运行时完整性。</p>
+            </article>
+            
+        </section>
+        
+
+        <footer class="footer">
+            <p>Generated by Daily News Skill | Cloudflare Pages</p>
+        </footer>
+    </main>
+</body>
+</html>
